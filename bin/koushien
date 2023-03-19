@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'koushien/version'
+require "koushien"
+
+# コマンド定義
+ARGV.options do |opt|
+  opt.on('-greet [OPTIONAL]') {|v|
+    p v ? v : 'hello!!'
+  }
+  opt.parse!
+end
+
+# オプションに基づいて処理を実行
+# Koushien::Command.exec(options)
