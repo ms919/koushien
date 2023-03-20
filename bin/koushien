@@ -6,7 +6,7 @@ require "koushien"
 
 # コマンド定義
 ARGV.options do |opt|
-  opt.on('-greet [OPTIONAL]') {|v|
+  opt.on('--greet [OPTIONAL]') {|v|
     p v ? v : 'hello!!'
   }
   opt.parse!
