@@ -4,11 +4,18 @@ require 'optparse'
 require 'koushien/version'
 require "koushien"
 
+Version = Koushien::VERSION
+
 # コマンド定義
 ARGV.options do |opt|
   opt.on('--greet [OPTIONAL]') {|v|
-    p v ? v : 'hello!!'
+    puts v ? v : 'hello!!'
+    exit
   }
+  opt.on('-v', '--version') do
+    puts opt.ver
+    exit
+  end
   opt.parse!
 end
 
