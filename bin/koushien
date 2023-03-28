@@ -2,20 +2,35 @@
 
 require 'optparse'
 require 'koushien/version'
-require "koushien"
+require 'koushien'
+require 'fileutils'
+require 'csv'
 
 Version = Koushien::VERSION
 
 # コマンド定義
 ARGV.options do |opt|
-  opt.on('--greet [OPTIONAL]') {|v|
-    puts v ? v : 'hello!!'
-    exit
-  }
+
+  # バージョン
   opt.on('-v', '--version') do
     puts opt.ver
     exit
   end
+
+  # CSV出力
+  opt.on('-o') do |v|
+    # ディレクトリ作成（なければ）
+    FileUtils.mkdir_p('./koushien/outputs/')
+    # csv作成
+    now = Time.now.strftime('%Y%m%d%H%M%S')
+
+    CSV.open("./koushien/outputs/koushien_#{now}.csv", 'w') do |csv|
+      csv << ['output time']
+      csv << [now]
+    end
+    exit
+  end
+
   opt.parse!
 end
 
