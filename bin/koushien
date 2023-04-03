@@ -14,11 +14,35 @@ ARGV.options do |opt|
   # バージョン
   opt.on('-v', '--version') do
     puts opt.ver
-    exit
+  end
+
+  # 読み込み
+  opt.on('-r') do
+    arr = []
+    File.open('./koushien/data/test.rb') { |f|
+      arr = f.readlines
+    }
+    arr.each {|x| x.strip!}
+
+    a = arr.filter_map do |y|
+      y if /^t\..*/.match(y)
+    end
+
+    # ディレクトリ作成（なければ）
+    FileUtils.mkdir_p('./koushien/outputs/')
+    # csv作成
+    now = Time.now.strftime('%Y%m%d%H%M%S')
+
+    CSV.open("./koushien/outputs/koushien_#{now}.csv", 'w') do |csv|
+      csv << ['output time']
+      csv << [now]
+      csv << []
+      csv << a
+    end
   end
 
   # CSV出力
-  opt.on('-o') do |v|
+  opt.on('-o') do
     # ディレクトリ作成（なければ）
     FileUtils.mkdir_p('./koushien/outputs/')
     # csv作成
@@ -28,7 +52,6 @@ ARGV.options do |opt|
       csv << ['output time']
       csv << [now]
     end
-    exit
   end
 
   opt.parse!
